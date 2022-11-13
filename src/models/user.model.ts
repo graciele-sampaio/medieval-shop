@@ -1,5 +1,6 @@
-import { ResultSetHeader } from 'mysql2/promise';
+import { ResultSetHeader, RowDataPacket } from 'mysql2/promise';
 import { IUser, IUserID } from '../interfaces/IUser';
+import { ILogin } from '../interfaces/ILogin';
 import mysql from './connection';
 
 export default class UserModel {
@@ -14,5 +15,12 @@ export default class UserModel {
     const [dataInsertId] = result;
     const { insertId } = dataInsertId;
     return { id: insertId, ...user };
+  }
+
+  public async getLogin(login: ILogin): Promise<IUser[]> {
+    const { username, password } = login;
+    const [rows] = await this.connection.execute<(IUser[] & RowDataPacket[])>(
+      'SELECT * FROM Trybesmith.users WHERE username=? AND password=?', [username, password]);
+    return rows;
   }
 }
