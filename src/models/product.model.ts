@@ -14,7 +14,6 @@ export default class ProductModel {
     const [dataInsertId] = result;
     const { insertId } = dataInsertId;
     return { id: insertId, ...product };
-    console.log('result', result);
   }
 
   public async getAll(): Promise<IProductID[]> {
