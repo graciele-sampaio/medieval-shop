@@ -1,10 +1,7 @@
 import jsonwebtoken from 'jsonwebtoken';
 import { IUser } from '../interfaces/IUser';
-import UserModel from '../models/user.model';
 
-export default class UserService {
-  public user = new UserModel();
-
+export default class UtilToken {
   public jwt = jsonwebtoken;
 
   public generateToken(user: IUser) {
@@ -16,9 +13,5 @@ export default class UserService {
     }; 
     return this.jwt.sign(payload, process.env.JWT_SECRET as string, { 
       algorithm: 'HS256', expiresIn: '1d' });
-  }
-
-  public create(userData: IUser): Promise<IUser> {
-    return this.user.create(userData);
   }
 }
